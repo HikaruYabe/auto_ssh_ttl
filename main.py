@@ -1,6 +1,20 @@
 from tkinter import *
 from tkinter import ttk
+import tkinter,tkinter.filedialog
+import os
 
+def search2file():
+    fTyp = [("","*")]
+    iDir = os.path.abspath(os.path.dirname(__file__))
+    file = tkinter.filedialog.askopenfilename(filetypes = fTyp,initialdir = iDir)
+    key_entry = file
+    key_text.insert(tkinter.END,key_entry)
+    
+def search2dir():
+    iDir = os.path.abspath(os.path.dirname(__file__))
+    dir = tkinter.filedialog.askdirectory(initialdir = iDir) 
+    out_entry = dir
+    out_text.insert(tkinter.END,out_entry)
 
 root = Tk()
 root.title('sshマクロ')
@@ -163,12 +177,14 @@ decide.grid(row=9,column=1)
 
 select_key = ttk.Button(
     frame,
-    text="エクスプローラを開く"
+    text="エクスプローラを開く",
+    command=search2file
 )
 
 select_out = ttk.Button(
     frame,
-    text="エクスプローラを開く"
+    text="エクスプローラを開く",
+    command=search2dir
 )
 
 select_key.grid(row=4,column=2)
