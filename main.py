@@ -14,21 +14,21 @@ lf = ttk.Labelframe(
     frame, 
     text='認証方式',
     padding=5)
-lf.grid()
+lf.grid(row=0,column=1)
 
 #key
 key_button = ttk.Radiobutton(
     lf,
     text='公開鍵認証',
     value='A')
-key_button.grid(row=0)
+key_button.grid(row=0,column=0)
 
 #pass
 password_button = ttk.Radiobutton(
     lf,
     text='パスワード認証',
     value='B')
-password_button.grid(row=1)
+password_button.grid(row=0,column=1)
 
 #user_label
 user_label = ttk.Label(
@@ -147,14 +147,30 @@ dat_text = ttk.Entry(
     width=20
 )
 
-user_text.grid(row=1,column=1)
-pass_text.grid(row=2,column=1)
-IP_text.grid(row=3,column=1)
-key_text.grid(row=4,column=1)
-out_text.grid(row=5,column=1)
-port_text.grid(row=6,column=1)
-ttl_text.grid(row=7,column=1)
-dat_text.grid(row=8,column=1)
+user_text.grid(row=1,column=1,pady=10)
+pass_text.grid(row=2,column=1,pady=10)
+IP_text.grid(row=3,column=1,pady=10)
+key_text.grid(row=4,column=1,pady=10)
+out_text.grid(row=5,column=1,pady=10)
+port_text.grid(row=6,column=1,pady=10)
+ttl_text.grid(row=7,column=1,pady=10)
+dat_text.grid(row=8,column=1,pady=10)
 
+decide = ttk.Button(
+    frame,
+    text='出力')
+decide.grid(row=9,column=1)
 
+select_key = ttk.Button(
+    frame,
+    text="エクスプローラを開く"
+)
+
+select_out = ttk.Button(
+    frame,
+    text="エクスプローラを開く"
+)
+
+select_key.grid(row=4,column=2)
+select_out.grid(row=5,column=2)
 root.mainloop()
