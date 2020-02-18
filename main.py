@@ -3,6 +3,16 @@ from tkinter import ttk
 import tkinter,tkinter.filedialog
 import os
 
+
+
+def disable2entry():
+    key_text.config(state="disable")
+    select_key.config(state="disable")
+
+def enable2entry():
+    key_text.config(state="enable")
+    select_key.config(state="enable")
+
 def search2file():
     fTyp = [("","*")]
     iDir = os.path.abspath(os.path.dirname(__file__))
@@ -16,12 +26,38 @@ def search2dir():
     out_entry = dir
     out_text.insert(tkinter.END,out_entry)
 
+def output():
+    with open(out_text.get() + "/" + dat_text.get() + ".dat",mode="w"):
+        pass
+    with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
+        f.write("username = '{}'\n".format(user_text.get()))
+        f.write("hostname = '{}'\n".format(IP_text.get()))
+        f.write("keyfile = '{}'\n".format(key_text.get()))
+        f.write("passwdfile = './{}'\n".format(dat_text.get() + ".dat"))
+        f.write("msg = 'Enter password for user'\n")
+        f.write("strconcat msg username\n")
+        f.write("passwdkey = username\n")
+        f.write("strconcat passwdkey '@'\n")
+        f.write("strconcat passwdkey hostname\n")
+        f.write("getpassword passwdfile passwdkey password\n")
+        f.write("msg = hostname\n")
+        f.write("strconcat msg ':{} /ssh /auth=publickey /user='\n".format(port_text.get()))
+        f.write("strconcat msg username\n")
+        f.write("strconcat msg ' /keyfile='\n")
+        f.write("strconcat msg keyfile\n")
+        f.write("strconcat msg ' /passwd='\n")
+        f.write("strconcat msg password\n")
+        f.write("connect msg")
+        
 root = Tk()
 root.title('sshマクロ')
 
 # Frame
 frame = ttk.Frame(root,padding=30)
 frame.grid()
+
+var = tkinter.IntVar()
+var.set(0)
 
 # auth way
 lf = ttk.Labelframe(
@@ -34,14 +70,18 @@ lf.grid(row=0,column=1)
 key_button = ttk.Radiobutton(
     lf,
     text='公開鍵認証',
-    value='A')
+    value=0,
+    variable=var,
+    command=enable2entry)
 key_button.grid(row=0,column=0)
 
 #pass
 password_button = ttk.Radiobutton(
     lf,
     text='パスワード認証',
-    value='B')
+    value=1,
+    variable=var,
+    command=disable2entry)
 password_button.grid(row=0,column=1)
 
 #user_label
@@ -84,7 +124,7 @@ port_label = ttk.Label(
 #ttlファイル名
 ttl_label = ttk.Label(
     frame,
-    text='ttkファイル名',
+    text='ttlファイル名',
 )
 
 #datファイル名
@@ -172,7 +212,8 @@ dat_text.grid(row=8,column=1,pady=10)
 
 decide = ttk.Button(
     frame,
-    text='出力')
+    text='出力',
+    command=output)
 decide.grid(row=9,column=1)
 
 select_key = ttk.Button(
