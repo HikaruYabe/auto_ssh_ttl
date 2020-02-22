@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import tkinter,tkinter.filedialog
 import os
 
@@ -27,27 +28,47 @@ def search2dir():
     out_text.insert(tkinter.END,out_entry)
 
 def output():
-    with open(out_text.get() + "/" + dat_text.get() + ".dat",mode="w"):
+    with open(out_text.get() + "/" + ttl_text.get() + ".dat",mode="w"):
         pass
-    with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
-        f.write("username = '{}'\n".format(user_text.get()))
-        f.write("hostname = '{}'\n".format(IP_text.get()))
-        f.write("keyfile = '{}'\n".format(key_text.get()))
-        f.write("passwdfile = './{}'\n".format(dat_text.get() + ".dat"))
-        f.write("msg = 'Enter password for user'\n")
-        f.write("strconcat msg username\n")
-        f.write("passwdkey = username\n")
-        f.write("strconcat passwdkey '@'\n")
-        f.write("strconcat passwdkey hostname\n")
-        f.write("getpassword passwdfile passwdkey password\n")
-        f.write("msg = hostname\n")
-        f.write("strconcat msg ':{} /ssh /auth=publickey /user='\n".format(port_text.get()))
-        f.write("strconcat msg username\n")
-        f.write("strconcat msg ' /keyfile='\n")
-        f.write("strconcat msg keyfile\n")
-        f.write("strconcat msg ' /passwd='\n")
-        f.write("strconcat msg password\n")
-        f.write("connect msg")
+    if var.get() == 0:
+        with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
+            f.write("username = '{}'\n".format(user_text.get()))
+            f.write("hostname = '{}'\n".format(IP_text.get()))
+            f.write("keyfile = '{}'\n".format(key_text.get()))
+            f.write("passwdfile = './{}'\n".format(ttl_text.get() + ".dat"))
+            f.write("msg = 'Enter password for user'\n")
+            f.write("strconcat msg username\n")
+            f.write("passwdkey = username\n")
+            f.write("strconcat passwdkey '@'\n")
+            f.write("strconcat passwdkey hostname\n")
+            f.write("getpassword passwdfile passwdkey password\n")
+            f.write("msg = hostname\n")
+            f.write("strconcat msg ':{} /ssh /auth=publickey /user='\n".format(port_text.get()))
+            f.write("strconcat msg username\n")
+            f.write("strconcat msg ' /keyfile='\n")
+            f.write("strconcat msg keyfile\n")
+            f.write("strconcat msg ' /passwd='\n")
+            f.write("strconcat msg password\n")
+            f.write("connect msg")
+    else:
+        with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
+            f.write("username = '{}'\n".format(user_text.get()))
+            f.write("hostname = '{}'\n".format(IP_text.get()))
+            f.write("passwdfile = './{}'\n".format(ttl_text.get() + ".dat"))
+            f.write("msg = 'Enter password for user'\n")
+            f.write("strconcat msg username\n")
+            f.write("passwd = username\n")
+            f.write("strconcat passwd '@'\n")
+            f.write("strconcat passwd hostname\n")
+            f.write("getpassword passwdfile passwd password\n")
+            f.write("msg = hostname\n")
+            f.write("strconcat msg ':{} /ssh /auth=password /user='\n".format(port_text.get()))
+            f.write("strconcat msg username\n")
+            f.write("strconcat msg ' /passwd='\n")
+            f.write("strconcat msg password\n")
+            f.write("connect msg")
+    messagebox.showinfo("出力","出力しました") 
+
         
 root = Tk()
 root.title('sshマクロ')
@@ -56,6 +77,7 @@ root.title('sshマクロ')
 frame = ttk.Frame(root,padding=30)
 frame.grid()
 
+# ラジオボタン判定
 var = tkinter.IntVar()
 var.set(0)
 
@@ -90,13 +112,6 @@ user_label = ttk.Label(
     text='ユーザ名',
 )
 
-
-#pass_label
-pass_label = ttk.Label(
-    frame,
-    text='パスワード',
-)
-
 #IP_label
 IP_label = ttk.Label(
     frame,
@@ -127,20 +142,13 @@ ttl_label = ttk.Label(
     text='ttlファイル名',
 )
 
-#datファイル名
-dat_label = ttk.Label(
-    frame,
-    text='datファイル名',
-)
 
 user_label.grid(row=1,column=0)
-pass_label.grid(row=2,column=0)
-IP_label.grid(row=3,column=0)
-key_label.grid(row=4,column=0)
-out_label.grid(row=5,column=0)
-port_label.grid(row=6,column=0)
-ttl_label.grid(row=7,column=0)
-dat_label.grid(row=8,column=0)
+IP_label.grid(row=2,column=0)
+key_label.grid(row=3,column=0)
+out_label.grid(row=4,column=0)
+port_label.grid(row=5,column=0)
+ttl_label.grid(row=6,column=0)
 
 
 user_entry = StringVar()
@@ -150,17 +158,10 @@ key_entry = StringVar()
 out_entry = StringVar()
 port_entry = StringVar()
 ttl_entry = StringVar()
-dat_entry = StringVar()
 
 user_text = ttk.Entry(
     frame,
     textvariable=user_entry,
-    width=20
-)
-
-pass_text = ttk.Entry(
-    frame,
-    textvariable=pass_entry,
     width=20
 )
 
@@ -195,20 +196,13 @@ ttl_text = ttk.Entry(
     width=20
 )
 
-dat_text = ttk.Entry(
-    frame,
-    textvariable=dat_entry,
-    width=20
-)
 
 user_text.grid(row=1,column=1,pady=10)
-pass_text.grid(row=2,column=1,pady=10)
-IP_text.grid(row=3,column=1,pady=10)
-key_text.grid(row=4,column=1,pady=10)
-out_text.grid(row=5,column=1,pady=10)
-port_text.grid(row=6,column=1,pady=10)
-ttl_text.grid(row=7,column=1,pady=10)
-dat_text.grid(row=8,column=1,pady=10)
+IP_text.grid(row=2,column=1,pady=10)
+key_text.grid(row=3,column=1,pady=10)
+out_text.grid(row=4,column=1,pady=10)
+port_text.grid(row=5,column=1,pady=10)
+ttl_text.grid(row=6,column=1,pady=10)
 
 decide = ttk.Button(
     frame,
@@ -228,6 +222,6 @@ select_out = ttk.Button(
     command=search2dir
 )
 
-select_key.grid(row=4,column=2)
-select_out.grid(row=5,column=2)
+select_key.grid(row=3,column=2)
+select_out.grid(row=4,column=2)
 root.mainloop()
