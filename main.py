@@ -28,14 +28,14 @@ def search2dir():
     out_text.insert(tkinter.END,out_entry)
 
 def output():
-    with open(out_text.get() + "/" + dat_text.get() + ".dat",mode="w"):
+    with open(out_text.get() + "/" + ttl_text.get() + ".dat",mode="w"):
         pass
     if var.get() == 0:
         with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
             f.write("username = '{}'\n".format(user_text.get()))
             f.write("hostname = '{}'\n".format(IP_text.get()))
             f.write("keyfile = '{}'\n".format(key_text.get()))
-            f.write("passwdfile = './{}'\n".format(dat_text.get() + ".dat"))
+            f.write("passwdfile = './{}'\n".format(ttl_text.get() + ".dat"))
             f.write("msg = 'Enter password for user'\n")
             f.write("strconcat msg username\n")
             f.write("passwdkey = username\n")
@@ -54,7 +54,7 @@ def output():
         with open(out_text.get()+ "/" +ttl_text.get()+".ttl",mode="w") as f:
             f.write("username = '{}'\n".format(user_text.get()))
             f.write("hostname = '{}'\n".format(IP_text.get()))
-            f.write("passwdfile = './{}'\n".format(dat_text.get() + ".dat"))
+            f.write("passwdfile = './{}'\n".format(ttl_text.get() + ".dat"))
             f.write("msg = 'Enter password for user'\n")
             f.write("strconcat msg username\n")
             f.write("passwd = username\n")
@@ -142,11 +142,6 @@ ttl_label = ttk.Label(
     text='ttlファイル名',
 )
 
-#datファイル名
-dat_label = ttk.Label(
-    frame,
-    text='datファイル名',
-)
 
 user_label.grid(row=1,column=0)
 IP_label.grid(row=2,column=0)
@@ -154,7 +149,6 @@ key_label.grid(row=3,column=0)
 out_label.grid(row=4,column=0)
 port_label.grid(row=5,column=0)
 ttl_label.grid(row=6,column=0)
-dat_label.grid(row=7,column=0)
 
 
 user_entry = StringVar()
@@ -164,7 +158,6 @@ key_entry = StringVar()
 out_entry = StringVar()
 port_entry = StringVar()
 ttl_entry = StringVar()
-dat_entry = StringVar()
 
 user_text = ttk.Entry(
     frame,
@@ -203,11 +196,6 @@ ttl_text = ttk.Entry(
     width=20
 )
 
-dat_text = ttk.Entry(
-    frame,
-    textvariable=dat_entry,
-    width=20
-)
 
 user_text.grid(row=1,column=1,pady=10)
 IP_text.grid(row=2,column=1,pady=10)
@@ -215,7 +203,6 @@ key_text.grid(row=3,column=1,pady=10)
 out_text.grid(row=4,column=1,pady=10)
 port_text.grid(row=5,column=1,pady=10)
 ttl_text.grid(row=6,column=1,pady=10)
-dat_text.grid(row=7,column=1,pady=10)
 
 decide = ttk.Button(
     frame,
